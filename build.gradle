@@ -28,7 +28,11 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-redis')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
-	runtime('org.springframework.boot:spring-boot-devtools')
+//	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+springBoot {
+	mainClass = "cn.janescott.ZoneApplication"
 }
