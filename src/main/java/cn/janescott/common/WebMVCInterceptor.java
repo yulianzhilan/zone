@@ -14,11 +14,17 @@ import javax.servlet.http.HttpServletResponse;
 public class WebMVCInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        return super.preHandle(request, response, handler);
+        System.out.println("--------WebMVCInterceptor preHandle start--------");
+        System.out.println(request.getRequestURL());
+        System.out.println("--------WebMVCInterceptor preHandle end--------");
+
+        return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        super.postHandle(request, response, handler, modelAndView);
+        System.out.println("--------WebMVCInterceptor postHandle start--------");
+        System.out.println(request.getRequestURL());
+        System.out.println("--------WebMVCInterceptor postHandle end--------");
     }
 }
