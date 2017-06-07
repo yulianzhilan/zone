@@ -39,6 +39,11 @@ dependencies {
 	// 非必须，可简化I/O操作
 	// https://mvnrepository.com/artifact/commons-io/commons-io
 	compile group: 'commons-io', name: 'commons-io', version: '2.4'
+	// 使用LEGACYHTML5代替HTML5解决<meta>标签没有正常结束异常（非严格模式）
+	compile('net.sourceforge.nekohtml:nekohtml:1.9.22')
+	// https://mvnrepository.com/artifact/javax.servlet/jstl
+	compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+
 }
 
 springBoot {

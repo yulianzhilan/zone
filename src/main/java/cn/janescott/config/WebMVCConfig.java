@@ -4,6 +4,7 @@ import cn.janescott.common.WebMVCInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.accept.ContentNegotiationManagerFactoryBean;
 import org.springframework.web.multipart.MultipartResolver;
@@ -20,10 +21,7 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Created by scott on 2017/6/6.
@@ -38,14 +36,15 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
         return new WebMVCInterceptor();
     }
 
-    @Bean
-    public InternalResourceViewResolver internalResourceViewResolver(){
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEB-INF/views/");
-        viewResolver.setSuffix(".jsp");
-        viewResolver.setViewClass(JstlView.class);
-        return viewResolver;
-    }
+    // fixme 原计划配置JSP/THYMELEAF共存解析器，配置出粗，故移除JSP
+//    @Bean
+//    public InternalResourceViewResolver internalResourceViewResolver(){
+//        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+//        viewResolver.setPrefix("classpath:/views/");
+//        viewResolver.setSuffix(".jsp");
+//        viewResolver.setViewClass(JstlView.class);
+//        return viewResolver;
+//    }
 
     /**
      * thymeleaf视图解析器
@@ -55,6 +54,8 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
     public ThymeleafViewResolver thymeleafViewResolver(){
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine((SpringTemplateEngine) templateEngine());
+//        viewResolver.setViewNames(new String[]{"templates/*"});
+//        viewResolver.setOrder(0);
         return viewResolver;
     }
 
@@ -76,9 +77,9 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
     @Bean
     public TemplateResolver templateResolver(){
         TemplateResolver templateResolver = new ServletContextTemplateResolver();
-        templateResolver.setPrefix("/WEB-INF/templates/");
+        templateResolver.setPrefix("classpath:/templates/");
         templateResolver.setSuffix(".html");
-        templateResolver.setTemplateMode("HTML5");
+        templateResolver.setTemplateMode("LEGACYHTML5");
         return templateResolver;
     }
 
@@ -115,7 +116,7 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
         viewResolver.setDefaultViews(Collections.singletonList(jackson2JsonView()));
         List<ViewResolver> resolvers = new ArrayList<>();
         resolvers.add(thymeleafViewResolver());
-        resolvers.add(internalResourceViewResolver());
+//        resolvers.add(internalResourceViewResolver());
         viewResolver.setViewResolvers(resolvers);
         return viewResolver;
     }
@@ -155,7 +156,7 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/statics/");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
     }
 
     /**
@@ -173,7 +174,7 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/index").setViewName("/index");
+        registry.addViewController("/index").setViewName("index");
     }
 
     /**
