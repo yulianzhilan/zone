@@ -32,6 +32,13 @@ dependencies {
 	runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 
+	// JMS
+//	compile('org.springframework:spring-jms')
+//	compile('org.apache.activemq:activemq-client')
+
+	//MAIL
+	compile('org.springframework.boot:spring-boot-starter-mail')
+
 	//下面两个是文件上传的依赖包
 	// file upload
 	// https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
@@ -44,7 +51,10 @@ dependencies {
 	// https://mvnrepository.com/artifact/javax.servlet/jstl
 	compile group: 'javax.servlet', name: 'jstl', version: '1.2'
 
+	compile("org.springframework.boot:spring-boot-configuration-processor")
 }
+
+compileJava.dependsOn(processResources)
 
 springBoot {
 	mainClass = "cn.janescott.ZoneApplication"

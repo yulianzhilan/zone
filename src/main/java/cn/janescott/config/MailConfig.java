@@ -1,0 +1,114 @@
+package cn.janescott.config;
+
+import cn.janescott.common.MailException;
+import com.sun.mail.util.MailSSLSocketFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.util.StringUtils;
+
+import javax.annotation.Resource;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.util.Properties;
+
+/**
+ * Created by scott on 2017/6/8.
+ */
+@Configuration
+public class MailConfig {
+    @Resource
+    private Environment env;
+    // fixme 尝试使用其他注入方式，但是失败了。读取不到配置文件
+//    @Value("${spring.mail.username}")
+//    private static String name;
+//    @Value("${spring.mail.password}")
+//    private static String password;
+//    @Value("${spring.mail.username}")
+//    private static String from;
+//    @Value("${spring.mail.host}")
+//    private static String host;
+//    @Value("${spring.mail.port}")
+//    private static String port;
+//    @Value("${spring.mail.protocol}")
+//    private static String protocol;
+//    @Value("${spring.mail.to}")
+//    private static String to;
+//    @Value("${spring.mail.auth}")
+//    private static String auth;
+//    @Value("${spring.mail.sslEnable}")
+//    private static String sslEnable;
+
+    private static final String PROTOCOL = "mail.transport.protocol";
+    private static final String HOST = "mail.smtp.host";
+    private static final String PORT = "mail.smtp.port";
+    private static final String AUTH = "mail.smtp.auth";
+    private static final String SOCKET_FACTORY = "mail.smtp.ssl.socketFactory";
+    private static final String SSL_ENABLE = "mail.smtp.ssl.enable";
+    private static final String PERSON = "ERROR NOTICE";
+
+    static class MyAuthenticator extends Authenticator {
+        private String name;
+        private String password;
+
+        MyAuthenticator(String name, String password) {
+            this.name = name;
+            this.password = password;
+        }
+
+        @Override
+        protected PasswordAuthentication getPasswordAuthentication() {
+            return new PasswordAuthentication(this.name, this.password);
+        }
+    }
+
+    @Bean
+    public Session session() {
+        Properties prop = new Properties();
+        prop.setProperty(PROTOCOL, env.getProperty("spring.mail.protocol"));
+        prop.setProperty(HOST, env.getProperty("spring.mail.host"));
+        prop.setProperty(PORT, env.getProperty("spring.mail.port"));
+        prop.setProperty(AUTH, env.getProperty("spring.mail.auth"));
+        MailSSLSocketFactory sf;
+        try {
+            sf = new MailSSLSocketFactory();
+            sf.setTrustAllHosts(true);
+            prop.put(SOCKET_FACTORY, sf);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+        prop.put(SSL_ENABLE, env.getProperty("spring.mail.sslEnable"));
+        return Session.getDefaultInstance(prop, new MyAuthenticator(env.getProperty("spring.mail.username"), env.getProperty("spring.mail.password")));
+    }
+
+    @Bean
+    public MimeMessage mimeMessage() throws Exception {
+        MimeMessage mimeMessage = new MimeMessage(session());
+        try {
+            mimeMessage.setFrom(new InternetAddress(env.getProperty("spring.mail.username"), PERSON));
+            String to = env.getProperty("spring.mail.to");
+            if (StringUtils.isEmpty(to)) {
+                throw new MailException();
+            }
+            String[] acceptors = to.split(",");
+            InternetAddress[] addresses = new InternetAddress[acceptors.length];
+            for (int i = 0; i < acceptors.length; i++) {
+                addresses[i] = new InternetAddress(acceptors[i]);
+            }
+            mimeMessage.setRecipients(Message.RecipientType.TO, addresses);
+            mimeMessage.saveChanges();
+//            mimeMessage.setSubject("异常监控");
+//            mimeMessage.setText("默认内容");
+//            Transport.send(mimeMessage);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return mimeMessage;
+    }
+}

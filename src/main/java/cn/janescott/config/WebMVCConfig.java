@@ -4,7 +4,6 @@ import cn.janescott.common.WebMVCInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
-import org.springframework.util.StringUtils;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.accept.ContentNegotiationManagerFactoryBean;
 import org.springframework.web.multipart.MultipartResolver;
@@ -12,8 +11,6 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -21,7 +18,10 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by scott on 2017/6/6.
@@ -36,7 +36,7 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
         return new WebMVCInterceptor();
     }
 
-    // fixme 原计划配置JSP/THYMELEAF共存解析器，配置出粗，故移除JSP
+    // fixme 原计划配置JSP/THYMELEAF共存解析器，配置出错，故移除JSP
 //    @Bean
 //    public InternalResourceViewResolver internalResourceViewResolver(){
 //        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
