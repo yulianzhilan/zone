@@ -21,7 +21,7 @@ public class ZoneApplicationTests {
 
 	@Test
 	public void testSend(){
-		sendEmailService.send("测试", "这是测试邮件");
+		sendEmailService.send("测试方法", "这是测试方法的邮件");
 	}
 }
 

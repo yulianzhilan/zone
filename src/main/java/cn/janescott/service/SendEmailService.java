@@ -10,7 +10,7 @@ import java.util.Date;
 
 /**
  * Created by scott on 2017/6/8.
- * 邮件发送工具类
+ * 邮件发送服务
  */
 @Service
 public class SendEmailService {

@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
  * Created by scott on 2017/6/7.
  * 异常全局处理建言
  * 组合了@Component会自动注册为bean
+ * page 108
  */
 @ControllerAdvice
 public class ExceptionHandlerAdvice {

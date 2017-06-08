@@ -1,10 +1,12 @@
 package cn.janescott.config;
 
+import cn.janescott.common.Constants;
 import cn.janescott.common.MailException;
 import com.sun.mail.util.MailSSLSocketFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.jca.cci.CciOperationNotSupportedException;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -45,14 +47,6 @@ public class MailConfig {
 //    @Value("${spring.mail.sslEnable}")
 //    private static String sslEnable;
 
-    private static final String PROTOCOL = "mail.transport.protocol";
-    private static final String HOST = "mail.smtp.host";
-    private static final String PORT = "mail.smtp.port";
-    private static final String AUTH = "mail.smtp.auth";
-    private static final String SOCKET_FACTORY = "mail.smtp.ssl.socketFactory";
-    private static final String SSL_ENABLE = "mail.smtp.ssl.enable";
-    private static final String PERSON = "ERROR NOTICE";
-
     static class MyAuthenticator extends Authenticator {
         private String name;
         private String password;
@@ -71,28 +65,28 @@ public class MailConfig {
     @Bean
     public Session session() {
         Properties prop = new Properties();
-        prop.setProperty(PROTOCOL, env.getProperty("spring.mail.protocol"));
-        prop.setProperty(HOST, env.getProperty("spring.mail.host"));
-        prop.setProperty(PORT, env.getProperty("spring.mail.port"));
-        prop.setProperty(AUTH, env.getProperty("spring.mail.auth"));
+        prop.setProperty(Constants.MAIL_PROTOCOL, env.getProperty(Constants.MAIL_PROTOCOL));
+        prop.setProperty(Constants.MAIL_HOST, env.getProperty(Constants.MAIL_HOST));
+        prop.setProperty(Constants.MAIL_PORT, env.getProperty(Constants.MAIL_PORT));
+        prop.setProperty(Constants.MAIL_AUTH, env.getProperty(Constants.MAIL_AUTH));
         MailSSLSocketFactory sf;
         try {
             sf = new MailSSLSocketFactory();
             sf.setTrustAllHosts(true);
-            prop.put(SOCKET_FACTORY, sf);
+            prop.put(Constants.MAIL_SOCKET_FACTORY, sf);
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
         }
-        prop.put(SSL_ENABLE, env.getProperty("spring.mail.sslEnable"));
-        return Session.getDefaultInstance(prop, new MyAuthenticator(env.getProperty("spring.mail.username"), env.getProperty("spring.mail.password")));
+        prop.put(Constants.MAIL_SSL_ENABLE, env.getProperty(Constants.MAIL_SSL_ENABLE));
+        return Session.getDefaultInstance(prop, new MyAuthenticator(env.getProperty(Constants.MAIL_USERNAME), env.getProperty(Constants.MAIL_PASSWORD)));
     }
 
     @Bean
     public MimeMessage mimeMessage() throws Exception {
         MimeMessage mimeMessage = new MimeMessage(session());
         try {
-            mimeMessage.setFrom(new InternetAddress(env.getProperty("spring.mail.username"), PERSON));
-            String to = env.getProperty("spring.mail.to");
+            mimeMessage.setFrom(new InternetAddress(env.getProperty(Constants.MAIL_USERNAME), Constants.MAIL_PERSON));
+            String to = env.getProperty(Constants.MAIL_TO);
             if (StringUtils.isEmpty(to)) {
                 throw new MailException();
             }

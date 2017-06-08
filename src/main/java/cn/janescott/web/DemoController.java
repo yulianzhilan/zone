@@ -3,6 +3,7 @@ package cn.janescott.web;
 import cn.janescott.service.SendEmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 
@@ -21,7 +22,8 @@ public class DemoController {
     }
 
     @RequestMapping("/send")
+    @ResponseBody
     public void send(){
-        sendEmailService.send("测试", "这是测试邮件");
+        sendEmailService.send("发送邮件", "发送邮件");
     }
 }
