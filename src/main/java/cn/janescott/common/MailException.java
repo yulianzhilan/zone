@@ -5,5 +5,11 @@ package cn.janescott.common;
  * 邮箱服务异常
  */
 public class MailException extends BaseException {
+    public MailException(String message) {
+        super(message);
+    }
 
+    public MailException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

@@ -1,11 +1,13 @@
 package cn.janescott.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by scott on 2017/6/8.
  * 所有常量
  */
 public class Constants {
-    // saprator
 
     // mail
     public static final String MAIL_PROTOCOL = "mail.transport.protocol";
@@ -19,12 +21,38 @@ public class Constants {
     public static final String MAIL_PASSWORD = "mail.smtp.password";
     public static final String MAIL_TO = "mail.smtp.to";
 
-
     // file
     public static final String FILE_MAX_FILE_SIZE = "MAX_FILE_SIZE";
     public static final String FILE_MAX_REQUEST_SIZE = "MAX_REQUEST_SIZE";
     public static final String FILE_SIZE_THRESHOLD = "FILE_SIZE_THRESHOLD";
 
     //spring
+    public static final String SPRING_DATASOURCE_USERNAME = "spring.datasource.username";
+    public static final String SPRING_DATASOURCE_PASSWORD = "spring.datasource.password";
+    public static final String SPRING_DATASOURCE_URL = "spring.datasource.url";
 
+    // redis
+    public static final String SPRING_REDIS_HOST = "spring.redis.host";
+    public static final String SPRING_REDIS_PORT = "spring.redis.port";
+
+
+
+    public static final List<String> ENCODED_CONFIGURATION = new ArrayList<>();
+
+
+    static {
+        ENCODED_CONFIGURATION.add(SPRING_DATASOURCE_PASSWORD);
+        ENCODED_CONFIGURATION.add(SPRING_DATASOURCE_USERNAME);
+        ENCODED_CONFIGURATION.add(SPRING_DATASOURCE_URL);
+
+        ENCODED_CONFIGURATION.add(SPRING_REDIS_HOST);
+        ENCODED_CONFIGURATION.add(SPRING_REDIS_PORT);
+
+        ENCODED_CONFIGURATION.add(MAIL_HOST);
+        ENCODED_CONFIGURATION.add(MAIL_TO);
+        ENCODED_CONFIGURATION.add(MAIL_USERNAME);
+        ENCODED_CONFIGURATION.add(MAIL_PASSWORD);
+    }
+
+    public static final String KEY = "jWgGELCkuxRuCI2Aqa6cF9VCxYpuKEZr";
 }

@@ -9,7 +9,7 @@ Mysql<br/>
 gradle<br/>
 JAVA MAIL<br/>
 logback<br/>
-
+jasypt<br/>
 
 开发计划：<br/>
 文件上传<br/>

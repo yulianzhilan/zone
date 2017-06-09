@@ -88,7 +88,7 @@ public class MailConfig {
             mimeMessage.setFrom(new InternetAddress(env.getProperty(Constants.MAIL_USERNAME), Constants.MAIL_PERSON));
             String to = env.getProperty(Constants.MAIL_TO);
             if (StringUtils.isEmpty(to)) {
-                throw new MailException();
+                throw new MailException("no mail acceptor");
             }
             String[] acceptors = to.split(",");
             InternetAddress[] addresses = new InternetAddress[acceptors.length];
