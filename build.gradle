@@ -53,7 +53,7 @@ dependencies {
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
 	compile("org.springframework.boot:spring-boot-configuration-processor")
 	// 加密
-	compile('com.github.ulisesbocchio:jasypt-spring-boot-starter:1.8')
+	compile('com.github.ulisesbocchio:jasypt-spring-boot-starter:1.12')
 }
 
 compileJava.dependsOn(processResources)

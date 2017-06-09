@@ -1,20 +1,30 @@
 package cn.janescott;
 
+import cn.janescott.common.Constants;
 import cn.janescott.common.MyFilter;
-import cn.janescott.common.PropertiesProcessor;
-import org.springframework.boot.SpringApplication;
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
+import com.ulisesbocchio.jasyptspringboot.detector.DefaultPropertyDetector;
+import com.ulisesbocchio.jasyptspringboot.environment.EncryptableEnvironment;
+import org.jasypt.encryption.StringEncryptor;
+import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
+import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.SearchStrategy;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.util.DefaultPropertiesPersister;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.StandardEnvironment;
 
 @SpringBootApplication
+@EnableEncryptableProperties
+@PropertySource(name = "EncryptedProperties", value = "classpath:encrypted.properties")
 public class ZoneApplication{
 
 	public static void main(String[] args) {
-		SpringApplication.run(ZoneApplication.class, args);
+		new SpringApplicationBuilder()
+				.environment(new EncryptableEnvironment(new StandardEnvironment(), new DefaultPropertyDetector("ENC@[", "]")))
+				.sources(ZoneApplication.class).run(args);
+//		SpringApplication.run(ZoneApplication.class, args);
 	}
 
 	@Bean
@@ -29,8 +39,18 @@ public class ZoneApplication{
 	}
 
 	@Bean
-    @ConditionalOnMissingBean(search = SearchStrategy.CURRENT)
-    public DefaultPropertiesPersister propertySourcesPlaceholderConfigurer(){
-		return new PropertiesProcessor();
+	/**
+	 * https://github.com/ulisesbocchio/jasypt-spring-boot
+	 * https://github.com/ulisesbocchio/jasypt-spring-boot-samples/tree/master/jasypt-spring-boot-demo-custom-prefix-suffix
+	 * https://github.com/ulisesbocchio/jasypt-spring-boot-samples/blob/master/jasypt-spring-boot-demo/src/main/java/demo/DemoApplication.java
+	 */
+	public StringEncryptor stringEncryptor() {
+		PooledPBEStringEncryptor coder = new PooledPBEStringEncryptor();
+		SimpleStringPBEConfig config = new SimpleStringPBEConfig();
+		config.setPassword(Constants.KEY);
+		config.setAlgorithm(Constants.ALGORITHM);
+		config.setPoolSize(1);
+		coder.setConfig(config);
+		return coder;
 	}
 }

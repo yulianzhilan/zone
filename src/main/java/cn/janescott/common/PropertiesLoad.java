@@ -14,6 +14,7 @@ import java.util.Properties;
  * Created by scott on 2017/6/9.
  * 配置文件加密
  */
+@Deprecated
 public class PropertiesLoad extends PropertyPlaceholderConfigurer {
     private PropertiesProcessor propertiesProcessor = new PropertiesProcessor();
 

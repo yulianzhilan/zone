@@ -13,6 +13,7 @@ import java.util.Properties;
  * Created by scott on 2017/6/9.
  * 解析配置文件
  */
+@Deprecated
 public class PropertiesProcessor extends DefaultPropertiesPersister {
 
     @Override
