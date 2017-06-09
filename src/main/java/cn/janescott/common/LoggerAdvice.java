@@ -21,13 +21,15 @@ import javax.annotation.Resource;
 @Aspect
 @Component
 public class LoggerAdvice {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(LoggerAdvice.class);
+
     @Resource
     private SendEmailService emailService;
 
 
     @Before("within(cn.janescott..*) && @annotation(loggerManage)")
     public void addBeforeLogger(JoinPoint joinPoint, LoggerManage loggerManage){
+        logger.info(logger.getClass()+"");
         logger.info("执行 " + loggerManage.description() + " 开始");
         logger.info(joinPoint.getSignature().toString());
         logger.info(parseParams(joinPoint.getArgs()));

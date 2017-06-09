@@ -1,5 +1,6 @@
 package cn.janescott.web;
 
+import cn.janescott.common.LoggerManage;
 import cn.janescott.service.SendEmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,8 @@ public class DemoController {
 
     @RequestMapping("/send")
     @ResponseBody
-    public void send(){
+    @LoggerManage(description = "发送邮件")
+    public void send() {
         sendEmailService.send("发送邮件", "发送邮件");
     }
 }

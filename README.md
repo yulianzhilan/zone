@@ -7,8 +7,11 @@ SpringBoot<br/>
 Redis<br/>
 Mysql<br/>
 gradle<br/>
-JAVA MAIL
+JAVA MAIL<br/>
+logback<br/>
+
 
 开发计划：<br/>
 文件上传<br/>
 邮件发送接口<br/>
+异常日志记录及邮件提醒<br/>
