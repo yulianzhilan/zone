@@ -3,6 +3,7 @@ package cn.janescott.web;
 import cn.janescott.common.LoggerManage;
 import cn.janescott.service.SendEmailService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -22,10 +23,15 @@ public class DemoController {
         return "demo";
     }
 
-    @RequestMapping("/send")
+    @RequestMapping("/send/{content}")
     @ResponseBody
     @LoggerManage(description = "发送邮件")
-    public void send() {
-        sendEmailService.send("发送邮件", "发送邮件");
+    public void send(@PathVariable("content")String content) {
+        sendEmailService.send("发送邮件", content);
+    }
+
+    @RequestMapping("/default")
+    public String layout(){
+        return "definition/default";
     }
 }

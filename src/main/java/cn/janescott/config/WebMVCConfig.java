@@ -1,6 +1,7 @@
 package cn.janescott.config;
 
 import cn.janescott.common.WebMVCInterceptor;
+import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -59,6 +60,7 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
         viewResolver.setTemplateEngine((SpringTemplateEngine) templateEngine());
 //        viewResolver.setViewNames(new String[]{"templates/*"});
 //        viewResolver.setOrder(0);
+        viewResolver.setCharacterEncoding("UTF-8");
         return viewResolver;
     }
 
@@ -70,6 +72,7 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
     public TemplateEngine templateEngine(){
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
+        templateEngine.setDialect(new LayoutDialect());
         return templateEngine;
     }
 
@@ -179,6 +182,7 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/index").setViewName("index");
+        registry.addViewController("/contact_us").setViewName("contact_us");
     }
 
     /**
