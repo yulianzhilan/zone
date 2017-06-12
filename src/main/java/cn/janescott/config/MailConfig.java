@@ -6,7 +6,6 @@ import com.sun.mail.util.MailSSLSocketFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.jca.cci.CciOperationNotSupportedException;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -27,25 +26,6 @@ import java.util.Properties;
 public class MailConfig {
     @Resource
     private Environment env;
-    // fixme 尝试使用其他注入方式，但是失败了。读取不到配置文件
-//    @Value("${spring.mail.username}")
-//    private static String name;
-//    @Value("${spring.mail.password}")
-//    private static String password;
-//    @Value("${spring.mail.username}")
-//    private static String from;
-//    @Value("${spring.mail.host}")
-//    private static String host;
-//    @Value("${spring.mail.port}")
-//    private static String port;
-//    @Value("${spring.mail.protocol}")
-//    private static String protocol;
-//    @Value("${spring.mail.to}")
-//    private static String to;
-//    @Value("${spring.mail.auth}")
-//    private static String auth;
-//    @Value("${spring.mail.sslEnable}")
-//    private static String sslEnable;
 
     static class MyAuthenticator extends Authenticator {
         private String name;
@@ -62,13 +42,16 @@ public class MailConfig {
         }
     }
 
+    @Resource
+    private EncryptConfig.EncryptedMailBean encryptedMailBean;
+
     @Bean
     public Session session() {
         Properties prop = new Properties();
         prop.setProperty(Constants.MAIL_PROTOCOL, env.getProperty(Constants.MAIL_PROTOCOL));
-        prop.setProperty(Constants.MAIL_HOST, env.getProperty(Constants.MAIL_HOST));
-        prop.setProperty(Constants.MAIL_PORT, env.getProperty(Constants.MAIL_PORT));
         prop.setProperty(Constants.MAIL_AUTH, env.getProperty(Constants.MAIL_AUTH));
+        prop.setProperty(Constants.MAIL_HOST, encryptedMailBean.getHost());
+        prop.setProperty(Constants.MAIL_PORT, encryptedMailBean.getPort());
         MailSSLSocketFactory sf;
         try {
             sf = new MailSSLSocketFactory();
@@ -78,15 +61,15 @@ public class MailConfig {
             e.printStackTrace();
         }
         prop.put(Constants.MAIL_SSL_ENABLE, env.getProperty(Constants.MAIL_SSL_ENABLE));
-        return Session.getDefaultInstance(prop, new MyAuthenticator(env.getProperty(Constants.MAIL_USERNAME), env.getProperty(Constants.MAIL_PASSWORD)));
+        return Session.getDefaultInstance(prop, new MyAuthenticator(encryptedMailBean.getUsername(), encryptedMailBean.getPassword()));
     }
 
     @Bean
     public MimeMessage mimeMessage() throws Exception {
         MimeMessage mimeMessage = new MimeMessage(session());
         try {
-            mimeMessage.setFrom(new InternetAddress(env.getProperty(Constants.MAIL_USERNAME), Constants.MAIL_PERSON));
-            String to = env.getProperty(Constants.MAIL_TO);
+            mimeMessage.setFrom(new InternetAddress(encryptedMailBean.getUsername(), Constants.MAIL_PERSON));
+            String to = encryptedMailBean.getTo();
             if (StringUtils.isEmpty(to)) {
                 throw new MailException("no mail acceptor");
             }

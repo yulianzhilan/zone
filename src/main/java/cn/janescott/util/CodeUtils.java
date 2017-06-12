@@ -28,9 +28,8 @@ public class CodeUtils {
         return coder;
     }
 
-
-    public static void main(String[] args) {
-        System.out.println(stringEncryptor().encrypt("Sd131953"));
-//        System.out.println(stringEncryptor().decrypt("A+wvQrOauydBq9Bb5T1a4SCdyxEtMularUjDU23eKtjFOtLr0YYsEVi9MOveeKmDyQjI5soea4uz8cRB+QL/6ZFIJoWYTbZDLZIHcSP6RwDLBIp+m6Vanw=="));
-    }
+//    public static void main(String[] args) {
+//        System.out.println(stringEncryptor().encrypt("Sd131953"));
+////        System.out.println(stringEncryptor().decrypt("A+wvQrOauydBq9Bb5T1a4SCdyxEtMularUjDU23eKtjFOtLr0YYsEVi9MOveeKmDyQjI5soea4uz8cRB+QL/6ZFIJoWYTbZDLZIHcSP6RwDLBIp+m6Vanw=="));
+//    }
 }

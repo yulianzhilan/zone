@@ -56,5 +56,7 @@ public class Constants {
 
     public static final String KEY = "jWgGELCkuxRuCI2Aqa6cF9VCxYpuKEZr";
     public static final String ALGORITHM = "PBEWithSHA1AndRC2_128";
+    public static final Integer ENCRYPT_POOL = 1;
+    public static final String SECURITY_PROPERTIES_FILE = "security.properties";
 
 }
