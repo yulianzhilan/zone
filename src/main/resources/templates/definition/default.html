@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <!--<link rel="stylesheet" th:href="@{/static/css/bootstrap/bootstrap.min.css}"/>-->
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css">
+    <link href="../../assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../../assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css">
+    <link href="../../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css">
+    <!-- END GLOBAL MANDATORY STYLES -->
+</head>
+<body>
+    <div th:replace="layout/header :: header"></div>
+    <div th:replace="layout/prefooter :: prefooter"></div>
+    <div th:replace="layout/footer :: footer"></div>
+    <script th:src="@{/static/js/bootstrap/bootstrap.min.js}"></script>
+    <script th:src="@{/static/js/jquery/jquery.min.js}"></script>
+</body>
+</html>
