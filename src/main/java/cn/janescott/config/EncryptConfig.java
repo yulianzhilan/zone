@@ -48,6 +48,12 @@ public class EncryptConfig {
     }
 
     /**
+     * https://github.com/ulisesbocchio/jasypt-spring-boot
+     * https://github.com/ulisesbocchio/jasypt-spring-boot-samples/tree/master/jasypt-spring-boot-demo-custom-prefix-suffix
+     * https://github.com/ulisesbocchio/jasypt-spring-boot-samples/blob/master/jasypt-spring-boot-demo/src/main/java/demo/DemoApplication.java
+     */
+
+    /**
      * 将邮箱密码组装成bean
      */
     @ConfigurationProperties(prefix = "mail")

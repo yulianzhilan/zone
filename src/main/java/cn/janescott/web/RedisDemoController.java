@@ -1,11 +1,16 @@
 package cn.janescott.web;
 
+import cn.janescott.common.LoggerManage;
 import cn.janescott.domain.Person;
+import cn.janescott.domain.system.User;
 import cn.janescott.repository.PersonDao;
+import cn.janescott.repository.system.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * Created by scott on 2017/6/6.
@@ -38,5 +43,16 @@ public class RedisDemoController {
     @RequestMapping("/get")
     public String get(){
         return personDao.getString();
+    }
+
+
+    @Resource
+    private
+    UserRepository userRepository;
+
+    @RequestMapping("/find")
+    @LoggerManage(description = "JPA")
+    public User find(){
+        return userRepository.findByAccount("SCOTT");
     }
 }

@@ -7,9 +7,6 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-//@EnableEncryptableProperties
-//@EncryptablePropertySource(name = "EncryptedProperties", value = "classpath:security.properties")
-//@EncryptablePropertySources({@EncryptablePropertySource("classpath:security.properties")})
 public class ZoneApplication{
 
 	public static void main(String[] args) {
@@ -27,19 +24,4 @@ public class ZoneApplication{
 		return registrationBean;
 	}
 
-//	@Bean
-	/**
-	 * https://github.com/ulisesbocchio/jasypt-spring-boot
-	 * https://github.com/ulisesbocchio/jasypt-spring-boot-samples/tree/master/jasypt-spring-boot-demo-custom-prefix-suffix
-	 * https://github.com/ulisesbocchio/jasypt-spring-boot-samples/blob/master/jasypt-spring-boot-demo/src/main/java/demo/DemoApplication.java
-	 */
-//	public StringEncryptor stringEncryptor() {
-//		PooledPBEStringEncryptor coder = new PooledPBEStringEncryptor();
-//		SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-//		config.setPassword(Constants.KEY);
-//		config.setAlgorithm(Constants.ALGORITHM);
-//		config.setPoolSize(1);
-//		coder.setConfig(config);
-//		return coder;
-//	}
 }

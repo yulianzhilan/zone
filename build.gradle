@@ -54,9 +54,6 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-configuration-processor")
 	// 加密
 	compile('com.github.ulisesbocchio:jasypt-spring-boot-starter:1.12')
-	// https://mvnrepository.com/artifact/org.jasypt/jasypt
-//	compile group: 'org.jasypt', name: 'jasypt', version: '1.9.2'
-	// https://mvnrepository.com/artifact/org.jasypt/jasypt-spring31
 	compile group: 'org.jasypt', name: 'jasypt-spring31', version: '1.9.2'
 
 }

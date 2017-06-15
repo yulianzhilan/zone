@@ -1,15 +1,16 @@
-package cn.janescott.domain;
+package cn.janescott.domain.system;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import cn.janescott.domain.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * Created by scott on 2017/6/13.
  */
 @Entity
+@Table(name = "t_user")
 public class User extends BaseEntity {
     @Id
     @GeneratedValue
@@ -18,32 +19,25 @@ public class User extends BaseEntity {
     @Column(unique = true)
     private String account;
 
-    @Column
     private String password;
 
     @Column(unique = true)
     private String email;
 
-    @Column(columnDefinition = "CREATE_TIME")
+    @Column(name = "CREATE_TIME", columnDefinition = "timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP")
     private Date createTime;
 
-    @Column(columnDefinition = "MODIFY_TIME")
+    @Column(name = "MODIFY_TIME", columnDefinition = "timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private Date modifyTime;
 
-    @Column
-    private boolean flag;
+    private Boolean flag;
 
-    public User() {
-    }
-
-    public User(String account, String password, String email, Date createTime, Date modifyTime, boolean flag) {
-        this.account = account;
-        this.password = password;
-        this.email = email;
-        this.createTime = createTime;
-        this.modifyTime = modifyTime;
-        this.flag = flag;
-    }
+//    @Column(name = "role_id")
+//    private Integer roleId;
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    @JsonBackReference
+    private Role role;
 
     public Long getId() {
         return id;
@@ -93,11 +87,33 @@ public class User extends BaseEntity {
         this.modifyTime = modifyTime;
     }
 
-    public boolean isFlag() {
+    public Boolean getFlag() {
         return flag;
     }
 
-    public void setFlag(boolean flag) {
+    public void setFlag(Boolean flag) {
         this.flag = flag;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", createTime=" + createTime +
+                ", modifyTime=" + modifyTime +
+                ", flag=" + flag +
+                ", role=" + role +
+                '}';
     }
 }

@@ -1,8 +1,6 @@
 package cn.janescott.web;
 
 import cn.janescott.common.LoggerManage;
-import cn.janescott.domain.User;
-import cn.janescott.repository.UserRepository;
 import cn.janescott.service.SendEmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,10 +35,4 @@ public class DemoController {
         return "definition/default";
     }
 
-    @Resource
-    UserRepository userRepository;
-    @RequestMapping("/find")
-    public User find(){
-        return userRepository.findByAccount("SCOTT");
-    }
 }
