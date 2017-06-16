@@ -11,13 +11,13 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "t_user")
-public class User extends BaseEntity {
+public class User extends BaseEntity{
     @Id
     @GeneratedValue
     private Long id;
 
     @Column(unique = true)
-    private String account;
+    private String username;
 
     private String password;
 
@@ -30,10 +30,9 @@ public class User extends BaseEntity {
     @Column(name = "MODIFY_TIME", columnDefinition = "timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private Date modifyTime;
 
+    @Column(name = "FLAG")
     private Boolean flag;
 
-//    @Column(name = "role_id")
-//    private Integer roleId;
     @ManyToOne
     @PrimaryKeyJoinColumn
     @JsonBackReference
@@ -47,12 +46,12 @@ public class User extends BaseEntity {
         this.id = id;
     }
 
-    public String getAccount() {
-        return account;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {
@@ -107,7 +106,7 @@ public class User extends BaseEntity {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", account='" + account + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", createTime=" + createTime +
@@ -116,4 +115,5 @@ public class User extends BaseEntity {
                 ", role=" + role +
                 '}';
     }
+
 }

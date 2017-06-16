@@ -18,19 +18,25 @@ public interface UserRepository extends JpaRepository<User, Long>{
      * Cacheable注解缓存方法（或类的所有方法）返回值，缓存Key是方法本身和参数的组合签名
      * 通俗说就是同样的参数调用两次，不会重复执行方法，也是缓存最朴素的动机
      */
-    @Cacheable(cacheNames = "user", key = "#p0")
-    User findByAccount(String account);
+    @Cacheable(cacheNames = "user", key = "'username@' + #username")
+    User findByUsername(String username);
 
-    @Cacheable(cacheNames = "user", key = "#p0")
+//    @Cacheable(cacheNames = "user", key = "'email@' + #email")
     User findByEmail(String email);
 
-    @Cacheable(cacheNames = "user", key = "#p0")
+//    @Cacheable(cacheNames = "user", key = "'id@' + #id")
     User findById(Long id);
 
-    @CachePut(cacheNames = "user", key = "#p0")
+//    @CachePut(cacheNames = "user", key = "'email@' + #email")
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query("update User set password=:password where email=:email")
-    int setPassword(@Param("password")String password, @Param("email")String email);
+    int setPasswordByEmail(@Param("password")String password, @Param("email")String email);
+
+//    @CachePut(cacheNames = "user", key = "'username@' + #username")
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query("update User set password=:password where username=:username")
+    int setPasswordByUsername(@Param("password")String password, @Param("username")String username);
 
 }

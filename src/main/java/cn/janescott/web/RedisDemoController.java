@@ -3,7 +3,7 @@ package cn.janescott.web;
 import cn.janescott.common.LoggerManage;
 import cn.janescott.domain.Person;
 import cn.janescott.domain.system.User;
-import cn.janescott.repository.PersonDao;
+import cn.janescott.repository.RedisRepository;
 import cn.janescott.repository.system.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 @RestController
 public class RedisDemoController {
     @Autowired
-    private PersonDao personDao;
+    private RedisRepository personDao;
 
     @RequestMapping("/setPerson")
     public void setPerson(){
@@ -53,6 +53,6 @@ public class RedisDemoController {
     @RequestMapping("/find")
     @LoggerManage(description = "JPA")
     public User find(){
-        return userRepository.findByAccount("SCOTT");
+        return userRepository.findByUsername("SCOTT");
     }
 }

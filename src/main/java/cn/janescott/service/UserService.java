@@ -19,7 +19,7 @@ import java.util.*;
  * Created by scott on 2017/6/15.
  */
 @Service
-public class SidebarService {
+public class UserService {
     @Resource
     private RoleRepository roleRepository;
     @Resource
