@@ -53,6 +53,13 @@ public class AuthUser implements UserDetails {
     }
 
     public AuthUser(User user) {
+        if(user == null){
+            user = new User();
+            user.setId(0L);
+            user.setUsername("default");
+            user.setPassword("default");
+            user.setFlag(false);
+        }
         this.user = user;
     }
 

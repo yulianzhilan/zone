@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
-import org.springframework.web.WebApplicationInitializer;
 
 @SpringBootApplication
 public class ZoneApplication extends AbstractSecurityWebApplicationInitializer{

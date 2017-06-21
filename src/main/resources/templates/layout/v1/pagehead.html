@@ -354,7 +354,9 @@
                     <!-- BEGIN USER LOGIN DROPDOWN -->
                     <li class="dropdown dropdown-extended quick-sidebar-toggler">
                         <span class="sr-only">Toggle Quick Sidebar</span>
-                        <i class="icon-logout"></i>
+                        <form th:action="@{/logout}" th:method="POST">
+                            <button th:type="submit" class="icon-logout"></button>
+                        </form>
                     </li>
                     <!-- END USER LOGIN DROPDOWN -->
                 </ul>

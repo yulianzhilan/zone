@@ -4,6 +4,7 @@ import cn.janescott.common.WebMVCInterceptor;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -72,7 +74,9 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
     public TemplateEngine templateEngine(){
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
-        templateEngine.setDialect(new LayoutDialect());
+//        templateEngine.setDialect(new LayoutDialect());
+        templateEngine.addDialect(new LayoutDialect());
+        templateEngine.addDialect(new SpringSecurityDialect());
         return templateEngine;
     }
 
@@ -116,46 +120,48 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
      * 内容协商处理器
      * @return
      */
-//    @Bean
-//    public ContentNegotiatingViewResolver contentNegotiatingViewResolver(){
-//        ContentNegotiatingViewResolver viewResolver = new ContentNegotiatingViewResolver();
-//        viewResolver.setContentNegotiationManager(contentNegotiationManager());
-//        viewResolver.setDefaultViews(Collections.singletonList(jackson2JsonView()));
-//        List<ViewResolver> resolvers = new ArrayList<>();
-//        resolvers.add(thymeleafViewResolver());
-////        resolvers.add(internalResourceViewResolver());
-//        viewResolver.setViewResolvers(resolvers);
-//        return viewResolver;
-//    }
+    @Bean
+    @Primary
+    public ContentNegotiatingViewResolver contentNegotiatingViewResolver(){
+        ContentNegotiatingViewResolver viewResolver = new ContentNegotiatingViewResolver();
+        viewResolver.setContentNegotiationManager(contentNegotiationManager());
+        viewResolver.setDefaultViews(Collections.singletonList(jackson2JsonView()));
+        List<ViewResolver> resolvers = new ArrayList<>();
+        resolvers.add(thymeleafViewResolver());
+//        resolvers.add(internalResourceViewResolver());
+        viewResolver.setViewResolvers(resolvers);
+        return viewResolver;
+    }
 
     /**
      * @apiNote 参考http://blog.csdn.net/marila4720/article/details/8468327
      * @return
      */
-//    @SuppressWarnings("unchecked")
-//    @Bean
-//    public ContentNegotiationManager contentNegotiationManager(){
-//        ContentNegotiationManagerFactoryBean factoryBean = new ContentNegotiationManagerFactoryBean();
-//        // 默认 text/html
-//        factoryBean.setDefaultContentType(MediaType.TEXT_HTML);
-//        // 通过请求路径的扩展名匹配media类型 foo.json
-//        factoryBean.setFavorPathExtension(true);
-//        // 通过请求参数匹配media类型 foo?format=json
-//        factoryBean.setFavorParameter(true);
-//        // 用来匹配media类型的参数名（默认format）
-//        factoryBean.setParameterName("format");
-//        //是否忽略Accept头
-//        factoryBean.setIgnoreAcceptHeader(true);
-//        // Java Activation Framework
-//        factoryBean.setUseJaf(false);
-//        Properties mediaTypes = new Properties();
-//        mediaTypes.setProperty("json", "application/json");
-//        mediaTypes.setProperty("xml", "application/xml");
-//        mediaTypes.setProperty("html", "text/html");
-//        factoryBean.setMediaTypes(mediaTypes);
-//        // 没有测试对不对
-//        return factoryBean.getObject();
-//    }
+    @SuppressWarnings("unchecked")
+    @Bean
+    @Primary
+    public ContentNegotiationManager contentNegotiationManager(){
+        ContentNegotiationManagerFactoryBean factoryBean = new ContentNegotiationManagerFactoryBean();
+        // 默认 text/html
+        factoryBean.setDefaultContentType(MediaType.TEXT_HTML);
+        // 通过请求路径的扩展名匹配media类型 foo.json
+        factoryBean.setFavorPathExtension(true);
+        // 通过请求参数匹配media类型 foo?format=json
+        factoryBean.setFavorParameter(true);
+        // 用来匹配media类型的参数名（默认format）
+        factoryBean.setParameterName("format");
+        //是否忽略Accept头
+        factoryBean.setIgnoreAcceptHeader(true);
+        // Java Activation Framework
+        factoryBean.setUseJaf(false);
+        Properties mediaTypes = new Properties();
+        mediaTypes.setProperty("json", "application/json");
+        mediaTypes.setProperty("xml", "application/xml");
+        mediaTypes.setProperty("html", "text/html");
+        factoryBean.setMediaTypes(mediaTypes);
+        // 没有测试对不对
+        return factoryBean.getObject();
+    }
 
     /**
      * 静态资源配置
@@ -164,6 +170,11 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+    }
+
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
     }
 
     /**

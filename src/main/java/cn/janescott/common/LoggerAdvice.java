@@ -3,10 +3,7 @@ package cn.janescott.common;
 import cn.janescott.service.SendEmailService;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -26,6 +23,8 @@ public class LoggerAdvice {
     @Resource
     private SendEmailService emailService;
 
+//    @Pointcut("within(cn.janescott.*) && @annotation(loggerManage)")
+//    public void log(){}
 
     @Before("within(cn.janescott..*) && @annotation(loggerManage)")
     public void addBeforeLogger(JoinPoint joinPoint, LoggerManage loggerManage){
