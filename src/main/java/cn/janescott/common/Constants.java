@@ -59,4 +59,10 @@ public class Constants {
     public static final Integer ENCRYPT_POOL = 1;
     public static final String SECURITY_PROPERTIES_FILE = "security.properties";
 
+    public static final String ROLE_DEFAULT = "def";
+
+    public static final String ERROR_L01 = "用户不存在或用户名错误！";
+    public static final String ERROR_L02 = "角色不存在！";
+    public static final String ERROR_L03 = "用户名或密码错误！";
+    public static final String ERROR_L04 = "权限不足或验证出错！";
 }

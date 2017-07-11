@@ -3,14 +3,18 @@ package cn.janescott.config;
 import cn.janescott.service.CustomUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserCache;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-
-import javax.annotation.Resource;
-import javax.sql.DataSource;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 /**
  * Created by scott on 2017/6/16.
@@ -22,14 +26,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         return new CustomUserService();
     }
 
-    @Resource
-    private DataSource dataSource;
+//    @Resource
+//    private DataSource dataSource;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //权限验证
         http.authorizeRequests() //通过这里开始请求权限配置
-        .antMatchers("/static/**","/signup","/about").permitAll()
+        .antMatchers("/static/**","/signup","/about", "/index","/redis/**").permitAll()
         .antMatchers("/admin/**").hasRole("ADMIN")//请求匹配/admin/**，只有拥有ADMIN权限的用户才能访问
         .anyRequest().authenticated()//其余所有的请求都需要认证后（登录）才可以访问
                 .and()
@@ -50,14 +54,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .logoutUrl("/logout")//指定注销的路径
                 .logoutSuccessUrl("/login")//指定注销成功后转向的页面
                 .permitAll();
+//        http.csrf().disable();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(customUserService());
-        auth.jdbcAuthentication().dataSource(dataSource)
-            .usersByUsernameQuery("select username, password, flag from t_user where username = ?")
-            .authoritiesByUsernameQuery("select u.username, r.name from t_user u, t_role r where u.role_id = r.id and u.username = ?");
+        auth.userDetailsService(customUserService());
+//        auth.jdbcAuthentication().dataSource(dataSource)
+//            .usersByUsernameQuery("select username, password, flag from t_user where username = ?")
+//            .authoritiesByUsernameQuery("select u.username, r.name from t_user u, t_role r where u.role_id = r.id and u.username = ?");
     }
 
     @Override

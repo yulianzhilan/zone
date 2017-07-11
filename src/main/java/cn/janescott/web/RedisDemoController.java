@@ -5,6 +5,7 @@ import cn.janescott.domain.Person;
 import cn.janescott.domain.system.User;
 import cn.janescott.repository.RedisRepository;
 import cn.janescott.repository.system.UserRepository;
+import cn.janescott.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import javax.annotation.Resource;
  * 测试redis缓存
  */
 @RestController
+@RequestMapping(value = "/redis")
 public class RedisDemoController {
     @Autowired
     private RedisRepository personDao;
@@ -51,8 +53,18 @@ public class RedisDemoController {
     UserRepository userRepository;
 
     @RequestMapping("/find")
-    @LoggerManage(description = "JPA")
+    @LoggerManage(description = "FIND")
     public User find(){
         return userRepository.findByUsername("SCOTT");
+    }
+
+    @RequestMapping("/update")
+    @LoggerManage(description = "UPDATE")
+    public User update(String password, String username){
+        if(StringUtils.isEmpty(password) || StringUtils.isEmpty(username)){
+            throw new RuntimeException("含有空值");
+        }
+        userRepository.setPasswordByUsername(password, username);
+        return userRepository.findByUsername(username);
     }
 }

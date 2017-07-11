@@ -30,7 +30,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4')
-//	runtime('org.springframework.boot:spring-boot-devtools')
+	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 
@@ -64,4 +64,8 @@ compileJava.dependsOn(processResources)
 
 springBoot {
 	mainClass = "cn.janescott.ZoneApplication"
+}
+
+bootRun {
+	addResources = true
 }

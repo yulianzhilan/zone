@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.accept.ContentNegotiationManagerFactoryBean;
 import org.springframework.web.multipart.MultipartResolver;
@@ -91,6 +92,7 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode("LEGACYHTML5");
         templateResolver.setCharacterEncoding("UTF-8");
+        templateResolver.setCacheable(false);
         return templateResolver;
     }
 
@@ -193,6 +195,10 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/index").setViewName("index");
+        registry.addViewController("/about").setViewName("index");
+        registry.addViewController("/error").setViewName("error");
+        registry.addViewController("/").setViewName("index");
+        registry.addViewController("").setViewName("index");
         registry.addViewController("/contact_us").setViewName("contact_us");
     }
 
@@ -216,10 +222,16 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
         return new StringHttpMessageConverter(Charset.forName("UTF-8"));
     }
 
+    @Bean
+    public MappingJackson2HttpMessageConverter jsonConverter(){
+        return new MappingJackson2HttpMessageConverter();
+    }
+
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         super.configureMessageConverters(converters);
         converters.add(responseBodyConverter());
+        converters.add(jsonConverter());
     }
 
 }

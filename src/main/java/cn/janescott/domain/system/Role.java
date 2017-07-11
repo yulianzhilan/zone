@@ -44,4 +44,11 @@ public class Role extends BaseEntity {
     public void setMenus(List<Menu> menus) {
         this.menus = menus;
     }
+
+    public Role() {
+    }
+
+    public Role(String name) {
+        this.name = name;
+    }
 }

@@ -1,5 +1,7 @@
 package cn.janescott.common;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -14,17 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 public class WebMVCInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("--------WebMVCInterceptor preHandle start--------");
-        System.out.println(request.getRequestURL());
-        System.out.println("--------WebMVCInterceptor preHandle end--------");
-
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        System.out.println("--------WebMVCInterceptor postHandle start--------");
-        System.out.println(request.getRequestURL());
-        System.out.println("--------WebMVCInterceptor postHandle end--------");
+        // 对于验证权限不足的（403），使用重定向到首页。
+        if(HttpStatus.FORBIDDEN.value() == response.getStatus()){
+            // 这里添加错误信息
+            request.getSession().setAttribute("SPRING_SECURITY_LAST_EXCEPTION", new BadCredentialsException(Constants.ERROR_L04));
+            response.sendRedirect("/zone/login");
+        } else if(HttpStatus.NOT_FOUND.value() == response.getStatus()){
+            response.sendRedirect("/zone/error");
+        }
     }
 }

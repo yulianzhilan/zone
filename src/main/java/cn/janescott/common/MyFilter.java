@@ -1,6 +1,12 @@
 package cn.janescott.common;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -15,8 +21,17 @@ public class MyFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("my filter do filter");
-        chain.doFilter(request,response);
+        // 对于登录失败，并且是密码错误的情况，在这里单独处理。
+        if ("true".equals(request.getParameter("error")) && "/zone/login".equals(((HttpServletRequest) request).getRequestURI())) {
+            Object obj = ((HttpServletRequest) request).getSession().getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
+            if (null != obj && obj instanceof BadCredentialsException) {
+                if ("Bad credentials".equals(((BadCredentialsException) obj).getMessage())) {
+                    ((HttpServletRequest) request).getSession().setAttribute("SPRING_SECURITY_LAST_EXCEPTION", new BadCredentialsException(Constants.ERROR_L03));
+                }
+            }
+
+        }
+        chain.doFilter(request, response);
     }
 
     @Override

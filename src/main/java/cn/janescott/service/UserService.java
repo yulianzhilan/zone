@@ -1,10 +1,9 @@
 package cn.janescott.service;
 
-import cn.janescott.common.LoginExceprion;
+import cn.janescott.domain.dto.SidebarDTO;
 import cn.janescott.domain.system.Menu;
 import cn.janescott.domain.system.Module;
 import cn.janescott.domain.system.Role;
-import cn.janescott.domain.dto.SidebarDTO;
 import cn.janescott.domain.system.User;
 import cn.janescott.repository.system.MenuRepository;
 import cn.janescott.repository.system.ModuleRepository;
