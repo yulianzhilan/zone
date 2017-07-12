@@ -34,7 +34,10 @@ public class Constants {
     // redis
     public static final String SPRING_REDIS_HOST = "spring.redis.host";
     public static final String SPRING_REDIS_PORT = "spring.redis.port";
-
+    public static final String SPRING_REDIS_MAXIDLE = "spring.redis.pool.max-idle";
+    public static final String SPRING_REDIS_MINIDLE = "spring.redis.pool.min-idle";
+    public static final String SPRING_REDIS_MAXWAIT = "spring.redis.pool.max-wait";
+    public static final String SPRING_REDIS_MAXACTIVE = "spring.redis.pool.max-active";
 
 
     public static final List<String> ENCODED_CONFIGURATION = new ArrayList<>();

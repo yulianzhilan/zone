@@ -1,38 +1,36 @@
 package cn.janescott.domain.dto;
 
-import java.util.List;
+import cn.janescott.domain.system.Menu;
+import cn.janescott.domain.system.Module;
+
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by scott on 2017/6/15.
  */
 public class SidebarDTO {
-    private String icon;
+    Map<Module, Set<Menu>> moduleListMap;
 
-    private String name;
-
-    private List<MenuDTO> menus;
-
-    public String getIcon() {
-        return icon;
+    public Map<Module, Set<Menu>> getModuleListMap() {
+        return moduleListMap;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setModuleListMap(Map<Module, Set<Menu>> moduleListMap) {
+        this.moduleListMap = moduleListMap;
     }
 
-    public String getName() {
-        return name;
+    public SidebarDTO() {
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public SidebarDTO(Map<Module, Set<Menu>> moduleListMap) {
+        this.moduleListMap = moduleListMap;
     }
 
-    public List<MenuDTO> getMenus() {
-        return menus;
-    }
-
-    public void setMenus(List<MenuDTO> menus) {
-        this.menus = menus;
+    @Override
+    public String toString() {
+        return "SidebarDTO{" +
+                "moduleListMap=" + moduleListMap +
+                '}';
     }
 }

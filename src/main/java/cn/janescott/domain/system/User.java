@@ -33,7 +33,7 @@ public class User extends BaseEntity{
     @Column(name = "FLAG")
     private Boolean flag;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     @JsonBackReference
     private Role role;

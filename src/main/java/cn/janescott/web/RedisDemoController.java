@@ -2,13 +2,16 @@ package cn.janescott.web;
 
 import cn.janescott.common.LoggerManage;
 import cn.janescott.domain.Person;
+import cn.janescott.domain.dto.SidebarDTO;
 import cn.janescott.domain.system.User;
 import cn.janescott.repository.RedisRepository;
 import cn.janescott.repository.system.UserRepository;
+import cn.janescott.service.UserService;
 import cn.janescott.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -22,6 +25,12 @@ import javax.annotation.Resource;
 public class RedisDemoController {
     @Autowired
     private RedisRepository personDao;
+
+    @Autowired
+    private UserService userService;
+
+    @Resource
+    private UserRepository userRepository;
 
     @RequestMapping("/setPerson")
     public void setPerson(){
@@ -47,11 +56,6 @@ public class RedisDemoController {
         return personDao.getString();
     }
 
-
-    @Resource
-    private
-    UserRepository userRepository;
-
     @RequestMapping("/find")
     @LoggerManage(description = "FIND")
     public User find(){
@@ -66,5 +70,19 @@ public class RedisDemoController {
         }
         userRepository.setPasswordByUsername(password, username);
         return userRepository.findByUsername(username);
+    }
+
+    @RequestMapping("/user/{msg}")
+    @LoggerManage(description = "get user")
+    public User getUser(@PathVariable("msg")String msg) throws Exception{
+        User user = userRepository.findByUsername(msg);
+        return user;
+    }
+
+    @LoggerManage(description = "get sidebar")
+    @RequestMapping("/sidebar/{id}")
+    public SidebarDTO getSidebar(@PathVariable("id")Integer id) throws Exception{
+        SidebarDTO dto = userService.getSidebar(id);
+        return dto;
     }
 }

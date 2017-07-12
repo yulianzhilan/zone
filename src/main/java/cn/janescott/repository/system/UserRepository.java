@@ -1,5 +1,6 @@
 package cn.janescott.repository.system;
 
+import cn.janescott.common.LoggerManage;
 import cn.janescott.domain.system.User;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -19,9 +20,11 @@ public interface UserRepository extends JpaRepository<User, Long>{
      * Cacheable注解缓存方法（或类的所有方法）返回值，缓存Key是方法本身和参数的组合签名
      * 通俗说就是同样的参数调用两次，不会重复执行方法，也是缓存最朴素的动机
      */
-    @Cacheable(cacheNames = "user", key = "'findByUsername:username@' + #username")
+    @LoggerManage(description = "findByUsername")
+    @Cacheable(cacheNames = "user", key="'findByUsername:username@' + args")
     User findByUsername(String username);
 
+    @LoggerManage(description = "setPasswordByUsername")
     @CacheEvict(cacheNames = "user", key = "'findByUsername:username@' + #username")
     // @Modifying标志为修改查询
     @Modifying(clearAutomatically = true)

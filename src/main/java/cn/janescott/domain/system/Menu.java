@@ -19,7 +19,7 @@ public class Menu extends BaseEntity implements Comparable{
 
     private String url;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     @JsonBackReference
     private Module module;
