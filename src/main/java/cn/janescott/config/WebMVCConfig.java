@@ -88,7 +88,8 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
     @Bean
     public TemplateResolver templateResolver(){
         TemplateResolver templateResolver = new ServletContextTemplateResolver();
-        templateResolver.setPrefix("classpath:/templates/");
+//        templateResolver.setPrefix("classpath:/templates/");
+        templateResolver.setPrefix("/WEB-INF/templates/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode("LEGACYHTML5");
         templateResolver.setCharacterEncoding("UTF-8");
@@ -213,8 +214,8 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
     }
 
     /**
-     * 解决Controller中文乱码问题
      * url http://blog.csdn.net/wujianmin577/article/details/61197485
+     * 解决Controller中文乱码问题
      * @return
      */
     @Bean

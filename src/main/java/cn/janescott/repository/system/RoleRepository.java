@@ -9,9 +9,9 @@ import org.springframework.data.repository.query.Param;
 /**
  * Created by scott on 2017/6/15.
  */
-public interface RoleRepository extends JpaRepository<Role, Integer> {
-
-    @LoggerManage(description = "findSidebarByRoleId")
-    @Cacheable(cacheNames = "sidebars", key = "'findSidebarByRoleId:Id@' + #id")
-    Role findAllById(@Param("id") Integer id);
-}
+//public interface RoleRepository extends JpaRepository<Role, Integer> {
+//
+//    @LoggerManage(description = "findSidebarByRoleId")
+//    @Cacheable(cacheNames = "sidebars", key = "'findSidebarByRoleId:Id@' + #id")
+//    Role findAllById(@Param("id") Integer id);
+//}

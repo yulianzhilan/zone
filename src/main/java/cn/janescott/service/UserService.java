@@ -5,12 +5,8 @@ import cn.janescott.domain.system.Menu;
 import cn.janescott.domain.system.Module;
 import cn.janescott.domain.system.Role;
 import cn.janescott.domain.system.User;
-import cn.janescott.repository.system.MenuRepository;
-import cn.janescott.repository.system.ModuleRepository;
-import cn.janescott.repository.system.RoleRepository;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.util.*;
 
@@ -19,16 +15,17 @@ import java.util.*;
  */
 @Service
 public class UserService {
-    @Resource
-    private RoleRepository roleRepository;
-    @Resource
-    private MenuRepository menuRepository;
-    @Resource
-    private ModuleRepository moduleRepository;
+//    @Resource
+//    private RoleRepository roleRepository;
+//    @Resource
+//    private MenuRepository menuRepository;
+//    @Resource
+//    private ModuleRepository moduleRepository;
 
 
     public SidebarDTO getSidebar(@NotNull Integer roleId){
-        Role role = roleRepository.findAllById(roleId);
+//        Role role = roleRepository.findAllById(roleId);
+        Role role = null;
         return assemble(role);
     }
 

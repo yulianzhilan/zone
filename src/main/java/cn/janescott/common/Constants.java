@@ -26,41 +26,51 @@ public class Constants {
     public static final String FILE_MAX_REQUEST_SIZE = "MAX_REQUEST_SIZE";
     public static final String FILE_SIZE_THRESHOLD = "FILE_SIZE_THRESHOLD";
 
-    //spring
+    // datasource
     public static final String SPRING_DATASOURCE_USERNAME = "spring.datasource.username";
     public static final String SPRING_DATASOURCE_PASSWORD = "spring.datasource.password";
     public static final String SPRING_DATASOURCE_URL = "spring.datasource.url";
+    public static final String SPRING_DATASOURCE_DRIVER_CLASS_NAME = "spring.datasource.driver-class-name";
+    // c3p0
+    public static final String C3P0_MINPOOLSIZE="c3p0.minPoolSize";
+    public static final String C3P0_MAXPOOLSIZE="c3p0.maxPoolSize";
+    public static final String C3P0_INITIALPOOLSIZE="c3p0.initialPoolSize";
+    public static final String C3P0_MAXIDLETIME="c3p0.maxIdleTime";
+    public static final String C3P0_ACQUIRE_INCREMENT="c3p0.acquireIncrement";
+    public static final String C3P0_MAXSTATEMENT="c3p0.maxStatements";
+    public static final String C3P0_MAXSTATEMENTS_PERCONNECTION="c3p0.maxStatementsPerConnection";
+
 
     // redis
-    public static final String SPRING_REDIS_HOST = "spring.redis.host";
-    public static final String SPRING_REDIS_PORT = "spring.redis.port";
+    public static final String SPRING_REDIS_HOST = "redis.host";
+    public static final String SPRING_REDIS_PORT = "redis.port";
     public static final String SPRING_REDIS_MAXIDLE = "spring.redis.pool.max-idle";
     public static final String SPRING_REDIS_MINIDLE = "spring.redis.pool.min-idle";
     public static final String SPRING_REDIS_MAXWAIT = "spring.redis.pool.max-wait";
     public static final String SPRING_REDIS_MAXACTIVE = "spring.redis.pool.max-active";
 
 
-    public static final List<String> ENCODED_CONFIGURATION = new ArrayList<>();
-
-
-    static {
-        ENCODED_CONFIGURATION.add(SPRING_DATASOURCE_PASSWORD);
-        ENCODED_CONFIGURATION.add(SPRING_DATASOURCE_USERNAME);
-        ENCODED_CONFIGURATION.add(SPRING_DATASOURCE_URL);
-
-        ENCODED_CONFIGURATION.add(SPRING_REDIS_HOST);
-        ENCODED_CONFIGURATION.add(SPRING_REDIS_PORT);
-
-        ENCODED_CONFIGURATION.add(MAIL_HOST);
-        ENCODED_CONFIGURATION.add(MAIL_TO);
-        ENCODED_CONFIGURATION.add(MAIL_USERNAME);
-        ENCODED_CONFIGURATION.add(MAIL_PASSWORD);
-    }
+//    public static final List<String> ENCODED_CONFIGURATION = new ArrayList<>();
+//
+//
+//    static {
+//        ENCODED_CONFIGURATION.add(SPRING_DATASOURCE_PASSWORD);
+//        ENCODED_CONFIGURATION.add(SPRING_DATASOURCE_USERNAME);
+//        ENCODED_CONFIGURATION.add(SPRING_DATASOURCE_URL);
+//
+//        ENCODED_CONFIGURATION.add(SPRING_REDIS_HOST);
+//        ENCODED_CONFIGURATION.add(SPRING_REDIS_PORT);
+//
+//        ENCODED_CONFIGURATION.add(MAIL_HOST);
+//        ENCODED_CONFIGURATION.add(MAIL_TO);
+//        ENCODED_CONFIGURATION.add(MAIL_USERNAME);
+//        ENCODED_CONFIGURATION.add(MAIL_PASSWORD);
+//    }
 
     public static final String KEY = "jWgGELCkuxRuCI2Aqa6cF9VCxYpuKEZr";
     public static final String ALGORITHM = "PBEWithSHA1AndRC2_128";
     public static final Integer ENCRYPT_POOL = 1;
-    public static final String SECURITY_PROPERTIES_FILE = "security.properties";
+    public static final String SECURITY_PROPERTIES_FILE = "classpath:security.properties";
 
     public static final String ROLE_DEFAULT = "def";
 

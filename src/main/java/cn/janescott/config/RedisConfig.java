@@ -4,6 +4,7 @@ import cn.janescott.common.Constants;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -32,8 +33,8 @@ public class RedisConfig extends CachingConfigurerSupport{
     @Resource
     private Environment env;
 
-    @Resource
-    private EncryptConfig.RedisBean redisBean;
+    @Resource(name = "encryptor")
+    private StringEncryptor encryptor;
 
     @Bean
     public JedisPoolConfig jedisPoolConfig(){
@@ -48,8 +49,8 @@ public class RedisConfig extends CachingConfigurerSupport{
     @Bean
     public RedisConnectionFactory redisConnectionFactory(){
         JedisConnectionFactory factory =  new JedisConnectionFactory(jedisPoolConfig());
-        factory.setHostName(redisBean.getHost());
-        factory.setPort(Integer.parseInt(redisBean.getPort()));
+        factory.setHostName(encryptor.decrypt(env.getProperty(Constants.SPRING_REDIS_HOST)));
+        factory.setPort(Integer.parseInt(encryptor.decrypt(env.getProperty(Constants.SPRING_REDIS_PORT))));
         return factory;
     }
 
