@@ -7,9 +7,9 @@
 </head>
 <body>
     <h4>出错了！</h4>
-    <p th:text="${timestamp}"></p>
-    <p th:text="${status}"></p>
-    <p th:text="${message}"></p>
-    <p th:text="${path}"></p>
+    <p th:text="${timestamp}" th:unless="${timestamp==null}"></p>
+    <p th:text="${status}" th:unless="${status==null}"></p>
+    <p th:text="${message}" th:unless="${messages==null}"></p>
+    <p th:text="${path}" th:unless="${path==null}"></p>
 </body>
 </html>

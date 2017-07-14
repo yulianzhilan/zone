@@ -5,10 +5,10 @@ import cn.janescott.domain.dto.UserDTO;
 import cn.janescott.repository.mapper.UserMapper;
 import cn.janescott.service.SendEmailService;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
@@ -16,7 +16,7 @@ import javax.annotation.Resource;
  * Created by scott on 2017/6/7.
  */
 
-@RestController
+@Controller
 @RequestMapping("/demo")
 public class DemoController {
 
@@ -57,6 +57,11 @@ public class DemoController {
     @ResponseBody
     public UserDTO mapper(String username){
         return userMapper.getOne(username);
+    }
+
+    @RequestMapping("/view")
+    public String view(){
+        return "demo.jsp";
     }
 
 }

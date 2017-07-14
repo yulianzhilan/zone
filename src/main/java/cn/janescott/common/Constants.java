@@ -49,32 +49,17 @@ public class Constants {
     public static final String SPRING_REDIS_MAXWAIT = "spring.redis.pool.max-wait";
     public static final String SPRING_REDIS_MAXACTIVE = "spring.redis.pool.max-active";
 
-
-//    public static final List<String> ENCODED_CONFIGURATION = new ArrayList<>();
-//
-//
-//    static {
-//        ENCODED_CONFIGURATION.add(SPRING_DATASOURCE_PASSWORD);
-//        ENCODED_CONFIGURATION.add(SPRING_DATASOURCE_USERNAME);
-//        ENCODED_CONFIGURATION.add(SPRING_DATASOURCE_URL);
-//
-//        ENCODED_CONFIGURATION.add(SPRING_REDIS_HOST);
-//        ENCODED_CONFIGURATION.add(SPRING_REDIS_PORT);
-//
-//        ENCODED_CONFIGURATION.add(MAIL_HOST);
-//        ENCODED_CONFIGURATION.add(MAIL_TO);
-//        ENCODED_CONFIGURATION.add(MAIL_USERNAME);
-//        ENCODED_CONFIGURATION.add(MAIL_PASSWORD);
-//    }
-
+    // coding
     public static final String KEY = "jWgGELCkuxRuCI2Aqa6cF9VCxYpuKEZr";
     public static final String ALGORITHM = "PBEWithSHA1AndRC2_128";
     public static final Integer ENCRYPT_POOL = 1;
     public static final String SECURITY_PROPERTIES_FILE = "classpath:security.properties";
 
+    // role
     public static final String ROLE_DEFAULT = "def";
     public static final Integer ROLE_DEFAULT_ID = 2;
 
+    // login error
     public static final String ERROR_L01 = "用户不存在或用户名错误！";
     public static final String ERROR_L02 = "角色不存在！";
     public static final String ERROR_L03 = "用户名或密码错误！";

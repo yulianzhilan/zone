@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-    @LoggerManage(description = "findSidebarByRoleId")
-    @Cacheable(cacheNames = "sidebars", key = "'findSidebarByRoleId:Id@' + args")
+    @LoggerManage(description = "findRoleByRoleId")
+    @Cacheable(cacheNames = "sidebars", key = "'findRoleByRoleId:Id@' + args")
     Role findOneById(Integer id);
 }

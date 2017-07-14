@@ -3,6 +3,7 @@ package cn.janescott.domain.dto;
 import java.util.Date;
 
 /**
+ * mybatis使用的用户对象
  * Created by scott on 2017/7/13.
  */
 public class UserDTO {
@@ -10,7 +11,9 @@ public class UserDTO {
     private Integer id;
     private String password;
     private Date createTime;
-    private String roleId;
+    private Integer roleId;
+    private String roleName;
+    private Boolean flag;
     public String getUsername() {
         return username;
     }
@@ -43,11 +46,27 @@ public class UserDTO {
         this.createTime = createTime;
     }
 
-    public String getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(String roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public Boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Boolean flag) {
+        this.flag = flag;
     }
 }

@@ -16,6 +16,8 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
@@ -44,14 +46,19 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
     }
 
     // fixme 原计划配置JSP/THYMELEAF共存解析器，配置出错，故移除JSP
-//    @Bean
-//    public InternalResourceViewResolver internalResourceViewResolver(){
-//        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-//        viewResolver.setPrefix("classpath:/views/");
+    @Bean
+    public InternalResourceViewResolver internalResourceViewResolver(){
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("classpath:/views/");
 //        viewResolver.setSuffix(".jsp");
-//        viewResolver.setViewClass(JstlView.class);
-//        return viewResolver;
-//    }
+        viewResolver.setViewClass(JstlView.class);
+        // 根据viewName的匹配使用那个试图解析器
+        viewResolver.setViewNames("*.jsp");
+        viewResolver.setOrder(10);
+        // 开发时不启用缓存，改动即可生效
+        viewResolver.setCache(false);
+        return viewResolver;
+    }
 
     /**
      * thymeleaf视图解析器
@@ -61,8 +68,8 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
     public ThymeleafViewResolver thymeleafViewResolver(){
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine((SpringTemplateEngine) templateEngine());
-//        viewResolver.setViewNames(new String[]{"templates/*"});
-//        viewResolver.setOrder(0);
+        viewResolver.setViewNames(new String[]{"*.html"});
+        viewResolver.setOrder(0);
         viewResolver.setCharacterEncoding("UTF-8");
         return viewResolver;
     }
@@ -75,7 +82,6 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
     public TemplateEngine templateEngine(){
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
-//        templateEngine.setDialect(new LayoutDialect());
         templateEngine.addDialect(new LayoutDialect());
         templateEngine.addDialect(new SpringSecurityDialect());
         return templateEngine;
@@ -88,9 +94,9 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
     @Bean
     public TemplateResolver templateResolver(){
         TemplateResolver templateResolver = new ServletContextTemplateResolver();
-//        templateResolver.setPrefix("classpath:/templates/");
-        templateResolver.setPrefix("/WEB-INF/templates/");
-        templateResolver.setSuffix(".html");
+        templateResolver.setPrefix("classpath:/templates/");
+//        templateResolver.setPrefix("/WEB-INF/templates/");
+//        templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode("LEGACYHTML5");
         templateResolver.setCharacterEncoding("UTF-8");
         templateResolver.setCacheable(false);
@@ -131,7 +137,7 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
         viewResolver.setDefaultViews(Collections.singletonList(jackson2JsonView()));
         List<ViewResolver> resolvers = new ArrayList<>();
         resolvers.add(thymeleafViewResolver());
-//        resolvers.add(internalResourceViewResolver());
+        resolvers.add(internalResourceViewResolver());
         viewResolver.setViewResolvers(resolvers);
         return viewResolver;
     }
@@ -195,12 +201,13 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/index").setViewName("index");
-        registry.addViewController("/about").setViewName("index");
-        registry.addViewController("/error").setViewName("error");
-        registry.addViewController("/").setViewName("index");
-        registry.addViewController("").setViewName("index");
-        registry.addViewController("/contact_us").setViewName("contact_us");
+        registry.addViewController("/index").setViewName("index.html");
+        registry.addViewController("/about").setViewName("index.html");
+//        registry.addViewController("/error").setViewName("error.html");
+        registry.addViewController("/").setViewName("index.html");
+        registry.addViewController("").setViewName("index.html");
+        registry.addViewController("/default").setViewName("definition/default.html");
+        registry.addViewController("/contact_us").setViewName("contact_us.html");
     }
 
     /**

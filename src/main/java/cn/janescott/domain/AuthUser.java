@@ -2,16 +2,16 @@ package cn.janescott.domain;
 
 import cn.janescott.common.Constants;
 import cn.janescott.common.LoggerAdvice;
+import cn.janescott.domain.dto.UserDTO;
 import cn.janescott.domain.entity.system.Role;
 import cn.janescott.domain.entity.system.User;
-import cn.janescott.repository.jpa.system.RoleRepository;
+import cn.janescott.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,70 +23,101 @@ import java.util.List;
 public class AuthUser implements UserDetails {
     private Logger logger = LoggerFactory.getLogger(LoggerAdvice.class);
 
-    private User user;
+    private String username;
 
-    @Resource
-    private RoleRepository roleRepository;
+    private String password;
+
+    private Boolean flag;
+
+    private String roleName;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> auth = new ArrayList<>();
         // 判断角色为空
-        if(null == this.user.getRoleId()){
-            logger.error(Constants.ERROR_L02, user.getId());
-            user.setRoleId(Constants.ROLE_DEFAULT_ID);
+        if(StringUtils.isEmpty(getRoleName())){
+            logger.error(Constants.ERROR_L02, this.username);
+            setRoleName(Constants.ROLE_DEFAULT);
         }
-        Role role = roleRepository.findOneById(user.getRoleId());
-        if(role == null){
-            logger.error(Constants.ERROR_L05,user.getRoleId());
-            role = new Role(Constants.ROLE_DEFAULT);
-        }
-        auth.add(new SimpleGrantedAuthority(role.getName()));
+        auth.add(new SimpleGrantedAuthority(getRoleName()));
         return auth;
     }
 
     @Override
     public String getPassword() {
-        return this.user.getPassword();
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return this.user.getUsername();
+        return this.username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return this.user.getFlag();
+        return this.getFlag();
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.user.getFlag();
+        return this.getFlag();
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return this.user.getFlag();
+        return this.getFlag();
     }
 
     @Override
     public boolean isEnabled() {
-        return this.user.getFlag();
+        return this.getFlag();
     }
 
     public AuthUser() {
     }
 
-    public AuthUser(User user) {
-        this.user = user;
+    public AuthUser(User user, Role role){
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.flag = user.getFlag();
+        this.roleName = role.getName();
     }
 
-    public User getUser() {
-        return user;
+    public AuthUser(UserDTO userDTO){
+        this.username = userDTO.getUsername();
+        this.password = userDTO.getPassword();
+        this.flag = userDTO.getFlag();
+        this.roleName = userDTO.getRoleName();
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public AuthUser(String username, String password, Boolean flag, String roleName) {
+        this.username = username;
+        this.password = password;
+        this.flag = flag;
+        this.roleName = roleName;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Boolean flag) {
+        this.flag = flag;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }
