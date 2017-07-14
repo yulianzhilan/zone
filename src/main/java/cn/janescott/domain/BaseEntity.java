@@ -5,9 +5,4 @@ package cn.janescott.domain;
  */
 public class BaseEntity implements java.io.Serializable{
     private static final long serialVersionUID = 1L;
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }

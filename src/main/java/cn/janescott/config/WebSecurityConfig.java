@@ -1,6 +1,6 @@
 package cn.janescott.config;
 
-import cn.janescott.service.CustomUserService;
+import cn.janescott.service.CustomSecurityUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Bean
     UserDetailsService customUserService(){
-        return new CustomUserService();
+        return new CustomSecurityUserService();
     }
 
 //    @Resource

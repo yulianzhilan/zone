@@ -1,7 +1,6 @@
-package cn.janescott.domain.system;
+package cn.janescott.domain.entity.system;
 
 import cn.janescott.domain.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -33,10 +32,13 @@ public class User extends BaseEntity{
     @Column(name = "FLAG")
     private Boolean flag;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn
-    @JsonBackReference
-    private Role role;
+    //去掉级联和多对多，从而解决懒加载异常
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @PrimaryKeyJoinColumn
+//    @JsonBackReference
+//    private Role role;
+    @Column(name = "ROLE_ID")
+    private Integer roleId;
 
     public Long getId() {
         return id;
@@ -94,12 +96,12 @@ public class User extends BaseEntity{
         this.flag = flag;
     }
 
-    public Role getRole() {
-        return role;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     @Override
@@ -112,8 +114,7 @@ public class User extends BaseEntity{
                 ", createTime=" + createTime +
                 ", modifyTime=" + modifyTime +
                 ", flag=" + flag +
-                ", role=" + role +
+                ", roleId=" + roleId +
                 '}';
     }
-
 }

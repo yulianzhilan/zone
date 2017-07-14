@@ -1,13 +1,17 @@
-package cn.janescott.domain.system;
+package cn.janescott.domain;
 
 import cn.janescott.common.Constants;
 import cn.janescott.common.LoggerAdvice;
+import cn.janescott.domain.entity.system.Role;
+import cn.janescott.domain.entity.system.User;
+import cn.janescott.repository.jpa.system.RoleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -21,15 +25,23 @@ public class AuthUser implements UserDetails {
 
     private User user;
 
+    @Resource
+    private RoleRepository roleRepository;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> auth = new ArrayList<>();
         // 判断角色为空
-        if(null == this.user.getRole()){
-            logger.error(Constants.ERROR_L02);
-            user.setRole(new Role(Constants.ROLE_DEFAULT));
+        if(null == this.user.getRoleId()){
+            logger.error(Constants.ERROR_L02, user.getId());
+            user.setRoleId(Constants.ROLE_DEFAULT_ID);
         }
-        auth.add(new SimpleGrantedAuthority(this.user.getRole().getName()));
+        Role role = roleRepository.findOneById(user.getRoleId());
+        if(role == null){
+            logger.error(Constants.ERROR_L05,user.getRoleId());
+            role = new Role(Constants.ROLE_DEFAULT);
+        }
+        auth.add(new SimpleGrantedAuthority(role.getName()));
         return auth;
     }
 

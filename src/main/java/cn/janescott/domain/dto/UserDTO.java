@@ -1,11 +1,11 @@
-package cn.janescott.entity;
+package cn.janescott.domain.dto;
 
 import java.util.Date;
 
 /**
  * Created by scott on 2017/7/13.
  */
-public class UserEntity {
+public class UserDTO {
     private String username;
     private Integer id;
     private String password;

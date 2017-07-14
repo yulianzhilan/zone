@@ -1,9 +1,11 @@
-package cn.janescott.domain.system;
+package cn.janescott.domain.entity.system;
 
 import cn.janescott.domain.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Created by scott on 2017/6/14.
@@ -19,10 +21,7 @@ public class Menu extends BaseEntity implements Comparable{
 
     private String url;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn
-    @JsonBackReference
-    private Module module;
+    private Integer moduleId;
 
     private Integer seq;
 
@@ -52,12 +51,12 @@ public class Menu extends BaseEntity implements Comparable{
         this.url = url;
     }
 
-    public Module getModule() {
-        return module;
+    public Integer getModuleId() {
+        return moduleId;
     }
 
-    public void setModule(Module module) {
-        this.module = module;
+    public void setModuleId(Integer moduleId) {
+        this.moduleId = moduleId;
     }
 
     public Integer getSeq() {
@@ -91,7 +90,7 @@ public class Menu extends BaseEntity implements Comparable{
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", url='" + url + '\'' +
-                ", module=" + module +
+                ", moduleId=" + moduleId +
                 ", seq=" + seq +
                 ", icon='" + icon + '\'' +
                 '}';

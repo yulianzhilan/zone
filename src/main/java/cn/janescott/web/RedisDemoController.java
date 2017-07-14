@@ -4,11 +4,14 @@ import cn.janescott.common.LoggerManage;
 import cn.janescott.domain.Person;
 import cn.janescott.domain.dto.SidebarDTO;
 import cn.janescott.repository.RedisRepository;
+import cn.janescott.repository.mapper.SidebarMapper;
 import cn.janescott.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * Created by scott on 2017/6/6.
@@ -17,14 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/redis")
 public class RedisDemoController {
-    @Autowired
+    @Resource
     private RedisRepository personDao;
 
-    @Autowired
+    @Resource
     private UserService userService;
 
 //    @Resource
 //    private UserRepository userRepository;
+
+    @Resource
+    private SidebarMapper sidebarMapper;
 
     @RequestMapping("/setPerson")
     public void setPerson(){
@@ -76,7 +82,7 @@ public class RedisDemoController {
     @LoggerManage(description = "get sidebar")
     @RequestMapping("/sidebar/{id}")
     public SidebarDTO getSidebar(@PathVariable("id")Integer id) throws Exception{
-        SidebarDTO dto = userService.getSidebar(id);
+        SidebarDTO dto = sidebarMapper.getSidebar(id);
         return dto;
     }
 }

@@ -73,9 +73,11 @@ public class Constants {
     public static final String SECURITY_PROPERTIES_FILE = "classpath:security.properties";
 
     public static final String ROLE_DEFAULT = "def";
+    public static final Integer ROLE_DEFAULT_ID = 2;
 
     public static final String ERROR_L01 = "用户不存在或用户名错误！";
     public static final String ERROR_L02 = "角色不存在！";
     public static final String ERROR_L03 = "用户名或密码错误！";
     public static final String ERROR_L04 = "权限不足或验证出错！";
+    public static final String ERROR_L05 = "获取用户信息失败！";
 }

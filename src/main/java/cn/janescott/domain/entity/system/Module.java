@@ -1,8 +1,11 @@
-package cn.janescott.domain.system;
+package cn.janescott.domain.entity.system;
 
 import cn.janescott.domain.BaseEntity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Created by scott on 2017/6/14.

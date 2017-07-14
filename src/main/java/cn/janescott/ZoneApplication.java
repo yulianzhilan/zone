@@ -8,22 +8,14 @@ import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
-@MapperScan("cn.janescott.mapper")
+@MapperScan("cn.janescott.repository.mapper")
 @SpringBootApplication
-		(exclude = {HibernateJpaAutoConfiguration.class})
-//@PropertySources({
-//		@PropertySource("../../../resources/application-dev.properties"),
-//		@PropertySource("../../../resources/application.properties")
-//})
 public class ZoneApplication extends AbstractSecurityWebApplicationInitializer{
 
 	public static void main(String[] args) {

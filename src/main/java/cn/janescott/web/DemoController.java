@@ -1,8 +1,8 @@
 package cn.janescott.web;
 
 import cn.janescott.common.LoggerManage;
-import cn.janescott.entity.UserEntity;
-import cn.janescott.mapper.UserMapper;
+import cn.janescott.domain.dto.UserDTO;
+import cn.janescott.repository.mapper.UserMapper;
 import cn.janescott.service.SendEmailService;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,7 +55,7 @@ public class DemoController {
     @RequestMapping("/mapper")
     @LoggerManage(description = "mapper")
     @ResponseBody
-    public UserEntity mapper(String username){
+    public UserDTO mapper(String username){
         return userMapper.getOne(username);
     }
 
