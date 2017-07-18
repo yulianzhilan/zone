@@ -52,9 +52,8 @@ public class ZoneApplication extends AbstractSecurityWebApplicationInitializer{
 
 	//  1. http://blog.csdn.net/isea533/article/details/50359390 整合mybatis
 	//  2. 解决hibernate懒加载导致的redis缓存中无法去到级联对象的bug
-	// todo 3. 使用双视图解析器，jsp+tiles & thymeleaf
+	// todo 3. 使用双视图解析器，jsp+tiles & thymeleaf https://stackoverflow.com/questions/24260520/error-resolving-template-pages-template-might-not-exist-or-might-not-be-acces
 	// todo 4. 集成百度编辑器 http://ueditor.baidu.com/website/umeditor.html
 	// todo 5. 搭建项目基本架构
-	// fixme http://blog.csdn.net/king_is_everyone/article/details/53080851
-
+	// fixme  处理解析不到error的问题 http://blog.csdn.net/king_is_everyone/article/details/53080851
 }
