@@ -1,8 +1,5 @@
 package cn.janescott.common;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by scott on 2017/6/8.
  * 所有常量
@@ -32,13 +29,13 @@ public class Constants {
     public static final String SPRING_DATASOURCE_URL = "spring.datasource.url";
     public static final String SPRING_DATASOURCE_DRIVER_CLASS_NAME = "spring.datasource.driver-class-name";
     // c3p0
-    public static final String C3P0_MINPOOLSIZE="c3p0.minPoolSize";
-    public static final String C3P0_MAXPOOLSIZE="c3p0.maxPoolSize";
-    public static final String C3P0_INITIALPOOLSIZE="c3p0.initialPoolSize";
-    public static final String C3P0_MAXIDLETIME="c3p0.maxIdleTime";
-    public static final String C3P0_ACQUIRE_INCREMENT="c3p0.acquireIncrement";
-    public static final String C3P0_MAXSTATEMENT="c3p0.maxStatements";
-    public static final String C3P0_MAXSTATEMENTS_PERCONNECTION="c3p0.maxStatementsPerConnection";
+    public static final String DATA_SOURCE_MINPOOLSIZE="data.source.minPoolSize";
+    public static final String DATA_SOURCE_MAXPOOLSIZE="data.source.maxPoolSize";
+    public static final String DATA_SOURCE_INITIALPOOLSIZE="data.source.initialPoolSize";
+    public static final String DATA_SOURCE_MAXIDLETIME="data.source.maxIdleTime";
+    public static final String DATA_SOURCE_ACQUIRE_INCREMENT="data.source.acquireIncrement";
+    public static final String DATA_SOURCE_MAXSTATEMENT="data.source.maxStatements";
+    public static final String DATA_SOURCE_MAXSTATEMENTS_PERCONNECTION="data.source.maxStatementsPerConnection";
 
 
     // redis

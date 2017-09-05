@@ -59,9 +59,4 @@ public class DemoController {
         return userMapper.getOne(username);
     }
 
-    @RequestMapping("/view")
-    public String view(){
-        return "demo.jsp";
-    }
-
 }

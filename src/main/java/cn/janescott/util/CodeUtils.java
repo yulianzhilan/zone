@@ -13,7 +13,7 @@ import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 public class CodeUtils {
     public static StandardPBEStringEncryptor standardPBEStringEncryptor(){
         StandardPBEStringEncryptor decoder = new StandardPBEStringEncryptor();
-        decoder.setAlgorithm(StandardPBEStringEncryptor.DEFAULT_STRING_OUTPUT_TYPE);
+        decoder.setAlgorithm(Constants.ALGORITHM);
         decoder.setPassword(Constants.KEY);
         return decoder;
     }
@@ -30,6 +30,8 @@ public class CodeUtils {
 
     public static void main(String[] args) {
         System.out.println(stringEncryptor().decrypt("A+wvQrOauydBq9Bb5T1a4SCdyxEtMularUjDU23eKtjFOtLr0YYsEVi9MOveeKmDyQjI5soea4uz8cRB+QL/6ZFIJoWYTbZDLZIHcSP6RwDLBIp+m6Vanw=="));
+        System.out.println(stringEncryptor().encrypt("SCOTT"));
+        System.out.println(standardPBEStringEncryptor().encrypt("SCOTT"));
     }
 
 }

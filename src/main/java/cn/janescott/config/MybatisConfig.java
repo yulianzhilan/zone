@@ -1,11 +1,9 @@
 package cn.janescott.config;
 
 import cn.janescott.common.Constants;
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-import org.apache.ibatis.session.SqlSessionFactory;
+import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
 import org.jasypt.encryption.StringEncryptor;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -17,7 +15,6 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
-import java.beans.PropertyVetoException;
 
 /**
  * 数据库和mybatis配置
@@ -39,26 +36,14 @@ public class MybatisConfig implements TransactionManagementConfigurer {
     @Resource
     private ResourcePatternResolver resolver;
 
-    @Bean
+    @Bean(destroyMethod = "close")
     public DataSource dataSource(){
-        ComboPooledDataSource dataSource = new ComboPooledDataSource();
-        try {
-            dataSource.setDriverClass(env.getProperty(Constants.SPRING_DATASOURCE_DRIVER_CLASS_NAME));
-        } catch (PropertyVetoException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-        dataSource.setUser(encryptor.decrypt(env.getProperty(Constants.SPRING_DATASOURCE_USERNAME)));
+        DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setDriverClassName(env.getProperty(Constants.SPRING_DATASOURCE_DRIVER_CLASS_NAME));
+        dataSource.setUrl(encryptor.decrypt(env.getProperty(Constants.SPRING_DATASOURCE_URL)));
+        dataSource.setUsername(encryptor.decrypt(env.getProperty(Constants.SPRING_DATASOURCE_USERNAME)));
         dataSource.setPassword(encryptor.decrypt(env.getProperty(Constants.SPRING_DATASOURCE_PASSWORD)));
-        dataSource.setJdbcUrl(encryptor.decrypt(env.getProperty(Constants.SPRING_DATASOURCE_URL)));
-        dataSource.setMinPoolSize(Integer.parseInt(env.getProperty(Constants.C3P0_MINPOOLSIZE)));
-        dataSource.setMaxPoolSize(Integer.parseInt(env.getProperty(Constants.C3P0_MAXPOOLSIZE)));
-        dataSource.setInitialPoolSize(Integer.parseInt(env.getProperty(Constants.C3P0_INITIALPOOLSIZE)));
-        dataSource.setMaxIdleTime(Integer.parseInt(env.getProperty(Constants.C3P0_MAXIDLETIME)));
-        dataSource.setAcquireIncrement(Integer.parseInt(env.getProperty(Constants.C3P0_ACQUIRE_INCREMENT)));
-        dataSource.setMaxStatements(Integer.parseInt(env.getProperty(Constants.C3P0_MAXSTATEMENT)));
-        dataSource.setMaxStatementsPerConnection(Integer.parseInt(env.getProperty(Constants.C3P0_MAXSTATEMENTS_PERCONNECTION)));
-        dataSource.setTestConnectionOnCheckin(true);
+        dataSource.setTestOnBorrow(true);
         return dataSource;
     }
 
@@ -101,4 +86,5 @@ public class MybatisConfig implements TransactionManagementConfigurer {
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         return new DataSourceTransactionManager(dataSource());
     }
+
 }

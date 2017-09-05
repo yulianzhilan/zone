@@ -5,6 +5,8 @@ import cn.janescott.domain.dto.UserDTO;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
@@ -22,4 +24,7 @@ public interface UserMapper {
     })
     @Cacheable(cacheNames = "user", key = "'findUserDTOByUsername:username@' + args")
     UserDTO getOne(String username);
+
+    @CachePut(cacheNames = "user", key = "'findUserDTOByUsername:username@' + args.username")
+    UserDTO updateOne(UserDTO userDTO);
 }

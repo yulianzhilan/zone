@@ -1,7 +1,11 @@
 package cn.janescott.config;
 
 import cn.janescott.common.WebMVCInterceptor;
+import com.alibaba.druid.support.http.StatViewServlet;
+import com.alibaba.druid.support.http.WebStatFilter;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -45,21 +49,6 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
         return new WebMVCInterceptor();
     }
 
-    // fixme 原计划配置JSP/THYMELEAF共存解析器，配置出错，故移除JSP
-    @Bean
-    public InternalResourceViewResolver internalResourceViewResolver(){
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("classpath:/views/");
-//        viewResolver.setSuffix(".jsp");
-        viewResolver.setViewClass(JstlView.class);
-        // 根据viewName的匹配使用那个试图解析器
-        viewResolver.setViewNames("*.jsp");
-        viewResolver.setOrder(10);
-        // 开发时不启用缓存，改动即可生效
-        viewResolver.setCache(false);
-        return viewResolver;
-    }
-
     /**
      * thymeleaf视图解析器
      * @return
@@ -68,8 +57,7 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
     public ThymeleafViewResolver thymeleafViewResolver(){
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine((SpringTemplateEngine) templateEngine());
-        viewResolver.setViewNames(new String[]{"*.html"});
-        viewResolver.setOrder(0);
+        viewResolver.setOrder(1);
         viewResolver.setCharacterEncoding("UTF-8");
         return viewResolver;
     }
@@ -95,8 +83,7 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
     public TemplateResolver templateResolver(){
         TemplateResolver templateResolver = new ServletContextTemplateResolver();
         templateResolver.setPrefix("classpath:/templates/");
-//        templateResolver.setPrefix("/WEB-INF/templates/");
-//        templateResolver.setSuffix(".html");
+        templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode("LEGACYHTML5");
         templateResolver.setCharacterEncoding("UTF-8");
         templateResolver.setCacheable(false);
@@ -137,7 +124,6 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
         viewResolver.setDefaultViews(Collections.singletonList(jackson2JsonView()));
         List<ViewResolver> resolvers = new ArrayList<>();
         resolvers.add(thymeleafViewResolver());
-        resolvers.add(internalResourceViewResolver());
         viewResolver.setViewResolvers(resolvers);
         return viewResolver;
     }
@@ -201,13 +187,12 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/index").setViewName("index.html");
-        registry.addViewController("/about").setViewName("index.html");
-//        registry.addViewController("/error").setViewName("error.html");
-        registry.addViewController("/").setViewName("index.html");
-        registry.addViewController("").setViewName("index.html");
-        registry.addViewController("/default").setViewName("definition/default.html");
-        registry.addViewController("/contact_us").setViewName("contact_us.html");
+        registry.addViewController("/index").setViewName("index");
+        registry.addViewController("/about").setViewName("index");
+        registry.addViewController("/").setViewName("index");
+        registry.addViewController("").setViewName("index");
+        registry.addViewController("/default").setViewName("definition/default");
+        registry.addViewController("/contact_us").setViewName("contact_us");
     }
 
     /**
@@ -242,4 +227,20 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter{
         converters.add(jsonConverter());
     }
 
+    @Bean
+    public FilterRegistrationBean getFilterRegistrationBean(){
+        FilterRegistrationBean filter = new FilterRegistrationBean();
+        filter.setFilter(new WebStatFilter());
+        filter.setName("druidWebStatFilter");
+        filter.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*");
+        filter.addUrlPatterns("/*");
+        return filter;
+    }
+    @Bean
+    public ServletRegistrationBean getServletRegistrationBean(){
+        ServletRegistrationBean servlet = new ServletRegistrationBean(new StatViewServlet(),"/druid/*");
+        servlet.setName("druidStatViewServlet");
+        servlet.addInitParameter("resetEnable", "false");
+        return servlet;
+    }
 }
